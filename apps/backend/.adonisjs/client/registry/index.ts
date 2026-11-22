@@ -32,6 +32,12 @@ const routes = {
     tokens: [[0,"api"],[0,"v1"],[0,"account"],[0,"logout"]],
     types: placeholder as Registry['profile.access_tokens.destroy']['types'],
   },
+  'units.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/units',
+    tokens: [[0,"api"],[0,"v1"],[0,"units"]],
+    types: placeholder as Registry['units.index']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

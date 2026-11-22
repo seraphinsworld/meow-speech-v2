@@ -1,7 +1,10 @@
 export type Unit = {
-  name: string
-  label: string
-  phonemes: string[]
+  id: number
+  slug: string
+  title: string
+  activePhonemes: string[]
   levelsCompleted: number
-  levels: number
+  currentLevel: number
+  totalLevels: number
+  isActive: boolean
 }

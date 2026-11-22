@@ -59,24 +59,24 @@ export function AccountScreen({ user, onLogout, isLoggingOut }: Props) {
         {units.length > 0 && (
           <ul className="unit-list">
             {units.map((unit) => (
-              <li className="unit-card" key={unit.name}>
+              <li className="unit-card" key={unit.id}>
                 <div className="unit-card-heading">
                   <div>
-                    <h3>{unit.label}</h3>
-                    <p>{unit.name}</p>
+                    <h3>{unit.title}</h3>
+                    <p>{unit.slug}</p>
                   </div>
                   <span className="unit-progress-label">
-                    {unit.levelsCompleted} / {unit.levels}
+                    Niveau {unit.currentLevel} / {unit.totalLevels}
                   </span>
                 </div>
                 <progress
                   className="unit-progress"
-                  value={unit.levelsCompleted}
-                  max={unit.levels || 1}
-                  aria-label={`Progression ${unit.label}`}
+                  value={unit.currentLevel}
+                  max={unit.totalLevels || 1}
+                  aria-label={`Niveau actuel ${unit.title}`}
                 />
-                <ul className="phoneme-list" aria-label={`Phonèmes ${unit.label}`}>
-                  {unit.phonemes.map((phoneme, index) => (
+                <ul className="phoneme-list" aria-label={`Phonèmes ${unit.title}`}>
+                  {unit.activePhonemes.map((phoneme, index) => (
                     <li key={`${phoneme}-${index}`}>{phoneme}</li>
                   ))}
                 </ul>

@@ -32,6 +32,23 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class UserUnitProgressSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'levelsCompleted', 'unitId', 'updatedAt', 'userId'] as const
+  $columns = UserUnitProgressSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare levelsCompleted: number
+  @column()
+  declare unitId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
   $columns = UserSchema.$columns

@@ -21,14 +21,17 @@ Le kit initialise SQLite et les migrations. Pour changer l’URL de l’API côt
 
 L’API utilise les access tokens opaques d’AdonisJS et expose :
 
-| Méthode | Route              | Résultat                                            |
-| ------- | ------------------ | --------------------------------------------------- |
-| `POST`  | `/auth/signup`     | Crée un compte et renvoie son access token          |
-| `POST`  | `/auth/login`      | Vérifie les identifiants et renvoie un access token |
-| `GET`   | `/account/profile` | Renvoie le profil authentifié                       |
-| `POST`  | `/account/logout`  | Révoque le token utilisé pour cette requête         |
+| Méthode | Route              | Résultat                                                    |
+| ------- | ------------------ | ----------------------------------------------------------- |
+| `POST`  | `/auth/signup`     | Crée un compte et renvoie son access token                  |
+| `POST`  | `/auth/login`      | Vérifie les identifiants et renvoie un access token         |
+| `GET`   | `/account/profile` | Renvoie le profil authentifié                               |
+| `POST`  | `/account/logout`  | Révoque le token utilisé pour cette requête                 |
+| `GET`   | `/units`           | Renvoie les 15 unités, la progression et leur statut actif |
 
 Les endpoints authentifiés attendent `Authorization: Bearer <token>`. Les mots de passe sont hachés par AdonisJS; le token émis est stocké sous forme hachée en base côté serveur.
+
+Les métadonnées des unités sont partagées et définies côté domaine. La progression `levelsCompleted` est stockée par utilisateur et unité dans `user_unit_progress`; elle vaut `0` au départ. L'entité de domaine `Unit` calcule `isActive` à partir de cette progression : l'unité 1 est active au départ, puis une unité se débloque lorsque la précédente est terminée. `currentLevel` est dérivé de `levelsCompleted`.
 
 Le client contient un écran d’inscription/connexion et un écran de session minimal. Le repository HTTP gère les appels; `useAuth` relie les opérations au cache TanStack Query; les composants restent dans `components/`.
 
