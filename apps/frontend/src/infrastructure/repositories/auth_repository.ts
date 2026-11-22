@@ -1,6 +1,6 @@
 import type { LoginCredentials, SignupDetails, User } from '../../domain/auth'
 import type { AuthRepository } from '../../domain/auth_repository'
-import { apiRequest } from '../http/api_client'
+import { ApiError, apiRequest } from '../http/api_client'
 import { tokenStore } from '../http/token_store'
 
 export class HttpAuthRepository implements AuthRepository {
@@ -27,15 +27,17 @@ export class HttpAuthRepository implements AuthRepository {
   }
 
   async profile(): Promise<User> {
-    const result = await apiRequest<{ data: User }>('/account/profile')
-    return result.data
+    try {
+      const result = await apiRequest<{ data: User }>('/account/profile')
+      return result.data
+    } catch (error) {
+      if (error instanceof ApiError && error.status === 401) tokenStore.clear()
+      throw error
+    }
   }
 
   async logout(): Promise<void> {
-    try {
-      await apiRequest('/account/logout', { method: 'POST' })
-    } finally {
-      tokenStore.clear()
-    }
+    await apiRequest('/account/logout', { method: 'POST' })
+    tokenStore.clear()
   }
 }

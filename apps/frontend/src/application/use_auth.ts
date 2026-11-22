@@ -1,15 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type { LoginCredentials, SignupDetails, User } from '../domain/auth'
-import { AUTH_REPOSITORY } from '../domain/repositories.ts'
+import { getAuthRepository } from './dependencies'
 
 const profileKey = ['auth', 'profile']
 
 export function useAuth() {
-  const authRepository = AUTH_REPOSITORY
+  const authRepository = getAuthRepository()
   const queryClient = useQueryClient()
   const hasSession = authRepository.hasSession()
 
-  const profile = useQuery({ queryKey: profileKey, queryFn: () => authRepository.profile() })
+  const profile = useQuery({
+    queryKey: profileKey,
+    queryFn: () => authRepository.profile(),
+    enabled: hasSession,
+    retry: false,
+  })
 
   const onAuthenticated = (user: User) => {
     queryClient.setQueryData(profileKey, user)
@@ -27,7 +32,7 @@ export function useAuth() {
 
   const logout = useMutation({
     mutationFn: authRepository.logout,
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.setQueryData(profileKey, null)
     },
   })
