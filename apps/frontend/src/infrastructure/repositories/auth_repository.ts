@@ -1,8 +1,13 @@
 import type { LoginCredentials, SignupDetails, User } from '../../domain/auth'
+import type { AuthRepository } from '../../domain/auth_repository'
 import { apiRequest } from '../http/api_client'
 import { tokenStore } from '../http/token_store'
 
-export const authRepository = {
+export class HttpAuthRepository implements AuthRepository {
+  hasSession(): boolean {
+    return Boolean(tokenStore.get())
+  }
+
   async login(credentials: LoginCredentials): Promise<User> {
     const result = await apiRequest<{ data: { user: User; token: string } }>('/auth/login', {
       method: 'POST',
@@ -10,7 +15,7 @@ export const authRepository = {
     })
     tokenStore.set(result.data.token)
     return result.data.user
-  },
+  }
 
   async signup(details: SignupDetails): Promise<User> {
     const result = await apiRequest<{ data: { user: User; token: string } }>('/auth/signup', {
@@ -19,12 +24,12 @@ export const authRepository = {
     })
     tokenStore.set(result.data.token)
     return result.data.user
-  },
+  }
 
   async profile(): Promise<User> {
     const result = await apiRequest<{ data: User }>('/account/profile')
     return result.data
-  },
+  }
 
   async logout(): Promise<void> {
     try {
@@ -32,5 +37,5 @@ export const authRepository = {
     } finally {
       tokenStore.clear()
     }
-  },
+  }
 }

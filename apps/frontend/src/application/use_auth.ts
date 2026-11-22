@@ -1,27 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type { LoginCredentials, SignupDetails, User } from '../domain/auth'
-import { authRepository } from '../infrastructure/repositories/auth_repository'
-import { tokenStore } from '../infrastructure/http/token_store'
+import { AUTH_REPOSITORY } from '../domain/repositories.ts'
 
 const profileKey = ['auth', 'profile']
 
 export function useAuth() {
+  const authRepository = AUTH_REPOSITORY
   const queryClient = useQueryClient()
-  const hasToken = Boolean(tokenStore.get())
+  const hasSession = authRepository.hasSession()
 
-  const profile = useQuery({
-    queryKey: profileKey,
-    queryFn: async () => {
-      try {
-        return await authRepository.profile()
-      } catch (error) {
-        tokenStore.clear()
-        throw error
-      }
-    },
-    enabled: hasToken,
-    retry: false,
-  })
+  const profile = useQuery({ queryKey: profileKey, queryFn: () => authRepository.profile() })
 
   const onAuthenticated = (user: User) => {
     queryClient.setQueryData(profileKey, user)
@@ -40,14 +28,13 @@ export function useAuth() {
   const logout = useMutation({
     mutationFn: authRepository.logout,
     onSettled: () => {
-      tokenStore.clear()
       queryClient.setQueryData(profileKey, null)
     },
   })
 
   return {
     user: profile.data ?? null,
-    isLoading: hasToken && profile.isPending,
+    isLoading: hasSession && profile.isPending,
     login,
     signup,
     logout,
