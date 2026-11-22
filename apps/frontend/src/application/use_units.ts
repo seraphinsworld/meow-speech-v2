@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { getUnitRepository } from './dependencies'
 
-export function useUnits(userId: number) {
+export function useUnits() {
   const unitRepository = getUnitRepository()
   const query = useQuery({
-    queryKey: ['units', userId],
+    queryKey: ['units'],
     queryFn: () => unitRepository.list(),
   })
 

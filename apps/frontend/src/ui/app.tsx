@@ -1,8 +1,18 @@
-import { AccountScreen } from '../components/account_screen'
-import { AuthScreen } from '../components/auth_screen'
+import { AccountScreen } from './screens/account_screen.tsx'
+import { AuthScreen } from './screens/auth_screen.tsx'
+import { UnitLevelsScreen } from './screens/unit_levels_screen.tsx'
 import { useAuth } from '../application/use_auth'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 
 export function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  )
+}
+
+function AppContent() {
   const auth = useAuth()
 
   if (auth.isLoading) {
@@ -17,11 +27,28 @@ export function App() {
 
   if (auth.user) {
     return (
-      <AccountScreen
-        user={auth.user}
-        onLogout={() => void auth.logout.mutateAsync().catch(() => undefined)}
-        isLoggingOut={auth.logout.isPending}
-      />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <AccountScreen
+              user={auth.user}
+              onLogout={() => void auth.logout.mutateAsync().catch(() => undefined)}
+              isLoggingOut={auth.logout.isPending}
+            />
+          }
+        />
+        <Route
+          path="/units/:unitId"
+          element={
+            <UnitLevelsScreen
+              onLogout={() => void auth.logout.mutateAsync().catch(() => undefined)}
+              isLoggingOut={auth.logout.isPending}
+            />
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     )
   }
 

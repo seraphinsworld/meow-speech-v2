@@ -1,24 +1,16 @@
-import type { User } from '../domain/models/user.ts'
-import { useUnits } from '../application/use_units'
+import type { User } from '../../domain/models/user.ts'
+import { useUnits } from '../../application/use_units.ts'
+import { AppHeader } from '../components/app_header.tsx'
+import { UnitCard } from '../components/unit_card.tsx'
 
 type Props = { user: User; onLogout: () => void; isLoggingOut: boolean }
 
 export function AccountScreen({ user, onLogout, isLoggingOut }: Props) {
-  const { units, isLoading, error } = useUnits(user.id)
+  const { units, isLoading, error } = useUnits()
 
   return (
     <main className="account-layout">
-      <header className="topbar">
-        <a className="brand" href="/">
-          <span className="brand-mark" aria-hidden="true">
-            ✳
-          </span>
-          <span>meow speech</span>
-        </a>
-        <button className="text-button" onClick={onLogout} disabled={isLoggingOut}>
-          {isLoggingOut ? 'Déconnexion…' : 'Se déconnecter'}
-        </button>
-      </header>
+      <AppHeader onLogout={onLogout} isLoggingOut={isLoggingOut} />
       <section className="account-card">
         <div className="avatar" aria-hidden="true">
           {user.initials || 'M'}
@@ -44,7 +36,11 @@ export function AccountScreen({ user, onLogout, isLoggingOut }: Props) {
           {!isLoading && !error && <span className="units-count">{units.length}</span>}
         </div>
 
-        {isLoading && <p className="units-state" role="status">Chargement des unités…</p>}
+        {isLoading && (
+          <p className="units-state" role="status">
+            Chargement des unités…
+          </p>
+        )}
 
         {error && (
           <div className="units-state units-error" role="alert">
@@ -59,28 +55,7 @@ export function AccountScreen({ user, onLogout, isLoggingOut }: Props) {
         {units.length > 0 && (
           <ul className="unit-list">
             {units.map((unit) => (
-              <li className="unit-card" key={unit.id}>
-                <div className="unit-card-heading">
-                  <div>
-                    <h3>{unit.title}</h3>
-                    <p>{unit.slug}</p>
-                  </div>
-                  <span className="unit-progress-label">
-                    Niveau {unit.currentLevel} / {unit.totalLevels}
-                  </span>
-                </div>
-                <progress
-                  className="unit-progress"
-                  value={unit.currentLevel}
-                  max={unit.totalLevels || 1}
-                  aria-label={`Niveau actuel ${unit.title}`}
-                />
-                <ul className="phoneme-list" aria-label={`Phonèmes ${unit.title}`}>
-                  {unit.activePhonemes.map((phoneme, index) => (
-                    <li key={`${phoneme}-${index}`}>{phoneme}</li>
-                  ))}
-                </ul>
-              </li>
+              <UnitCard key={unit.id} unit={unit} />
             ))}
           </ul>
         )}

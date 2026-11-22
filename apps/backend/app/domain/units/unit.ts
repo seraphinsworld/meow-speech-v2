@@ -23,6 +23,7 @@ export class Unit {
   readonly levelsCompleted: number
   readonly isActive: boolean
   readonly currentLevel: number
+  private readonly isUnlocked: boolean
   private readonly previousUnitCompleted: boolean | null
 
   constructor(
@@ -37,18 +38,31 @@ export class Unit {
     this.totalLevels = definition.totalLevels
     this.levelsCompleted = levelsCompleted
     this.previousUnitCompleted = previousUnitCompleted
-    this.isActive =
-      levelsCompleted < definition.totalLevels &&
-      (previousUnitCompleted === null || previousUnitCompleted)
-    this.currentLevel = this.levelsCompleted
+    this.isUnlocked = definition.id === 1 || previousUnitCompleted === true
+    this.currentLevel = this.isUnlocked
+      ? definition.id === 1 && levelsCompleted === 0
+        ? 0
+        : Math.min(levelsCompleted + 1, definition.totalLevels)
+      : 0
+    this.isActive = Array.from({ length: definition.totalLevels }, (_, index) => index + 1).some(
+      (level) => this.isLevelActive(level)
+    )
   }
 
   get isCompleted() {
     return this.levelsCompleted === this.totalLevels
   }
 
+  isLevelActive(level: number) {
+    if (!Number.isInteger(level) || level < 1 || level > this.totalLevels || !this.isUnlocked) {
+      return false
+    }
+
+    return level <= this.currentLevel || (this.id === 1 && level === 1)
+  }
+
   canValidateLevel(level: number) {
-    return this.isActive && level === this.currentLevel + 1
+    return this.isActive && level === this.levelsCompleted + 1 && this.isLevelActive(level)
   }
 
   /** Returns a new progression state after validating the expected next level. */
@@ -58,7 +72,7 @@ export class Unit {
     }
 
     if (!this.canValidateLevel(level)) {
-      throw new UnitProgressionError(`Expected level ${this.currentLevel + 1}.`)
+      throw new UnitProgressionError(`Expected level ${this.levelsCompleted + 1}.`)
     }
 
     return new Unit(

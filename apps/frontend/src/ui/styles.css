@@ -355,6 +355,124 @@ button:disabled {
   background: var(--paper);
   box-shadow: 0 12px 36px rgba(45, 55, 44, 0.04);
 }
+.unit-card--inactive {
+  background: #f0f0eb;
+  box-shadow: none;
+}
+.unit-card-open {
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-decoration: none;
+  text-align: left;
+}
+.unit-card-open:not(:disabled) {
+  cursor: pointer;
+}
+.unit-card-open:disabled {
+  cursor: not-allowed;
+}
+.unit-card-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.unit-card-title,
+.unit-card-slug {
+  display: block;
+}
+.unit-card-title {
+  font-size: 17px;
+  font-weight: 700;
+}
+.unit-card-slug {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.unit-status {
+  border-radius: 20px;
+  padding: 5px 9px;
+  background: #e4e4df;
+  color: #777d73;
+  font-size: 10px;
+  font-weight: 700;
+}
+.unit-status--active {
+  background: #e5ece5;
+  color: var(--green);
+}
+.unit-open-hint {
+  display: block;
+  margin-top: 15px;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+}
+.unit-card--inactive .unit-open-hint {
+  color: var(--muted);
+}
+.unit-card .unit-progress-label {
+  display: block;
+  margin-top: 18px;
+}
+.levels-section {
+  width: min(calc(100% - 40px), 900px);
+  margin: 64px auto 80px;
+}
+.levels-section h1 {
+  margin: 10px 0 0;
+  font-size: clamp(32px, 5vw, 48px);
+  letter-spacing: -1.8px;
+}
+.levels-section > .muted {
+  margin: 9px 0 30px;
+}
+.level-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.level-card {
+  display: flex;
+  width: 100%;
+  min-height: 112px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  background: var(--paper);
+  color: var(--muted);
+  cursor: not-allowed;
+  text-align: left;
+}
+.level-card--active {
+  border-color: #c8d8c9;
+  background: #edf3ec;
+  color: var(--green);
+  cursor: pointer;
+}
+.level-card--active:hover {
+  border-color: #91aa94;
+  transform: translateY(-1px);
+}
+.level-number {
+  font-size: 24px;
+  font-weight: 800;
+}
+.level-card > span:last-child {
+  font-size: 11px;
+  font-weight: 600;
+}
 .unit-card-heading {
   display: flex;
   align-items: start;
