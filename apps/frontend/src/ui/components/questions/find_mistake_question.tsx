@@ -1,4 +1,4 @@
-import type { FindMistakeQuestion, QuestionAnswer } from '../../../domain/models/question.ts'
+import type { FindMistakeQuestion, QuestionAnswer } from '../../../domain/models/question/question.ts'
 import { WordPrompt } from './word_prompt.tsx'
 
 type Props = {

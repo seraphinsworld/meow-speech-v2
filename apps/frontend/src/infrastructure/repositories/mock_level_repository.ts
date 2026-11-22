@@ -1,7 +1,9 @@
 import type { Level } from '../../domain/models/level.ts'
+import { createQuestion } from './question_factory.ts'
+import type { QuestionData } from '../../domain/models/question/question.ts'
 import type { LevelRepository } from '../../domain/repositories/level_repository.ts'
 
-const mockLevel: Level = {
+const mockLevel = {
   keyboardPhonemes: ['ʃ', 's', 'h', 'ɪ', 'i', 'p', 'ɛ'],
   questions: [
     {
@@ -48,10 +50,13 @@ const mockLevel: Level = {
       expectedPhoneme: null,
     },
   ],
-}
+} satisfies Omit<Level, 'questions'> & { questions: QuestionData[] }
 
 export class MockLevelRepository implements LevelRepository {
   async getLevel(_unitId: number, _levelNumber: number): Promise<Level> {
-    return mockLevel
+    return {
+      keyboardPhonemes: [...mockLevel.keyboardPhonemes],
+      questions: mockLevel.questions.map(createQuestion),
+    }
   }
 }

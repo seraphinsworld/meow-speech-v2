@@ -1,4 +1,4 @@
-import type { Question } from '../../../domain/models/question.ts'
+import type { Question } from '../../../domain/models/question/question.ts'
 
 export function correctionForQuestion(question: Question): string {
   switch (question.type) {

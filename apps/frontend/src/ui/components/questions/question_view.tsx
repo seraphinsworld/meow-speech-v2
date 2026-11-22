@@ -1,4 +1,4 @@
-import type { Question, QuestionAnswer } from '../../../domain/models/question.ts'
+import type { Question, QuestionAnswer } from '../../../domain/models/question/question.ts'
 import { FindMistakeQuestionView } from './find_mistake_question.tsx'
 import { MissingPhonemeQuestionView } from './missing_phoneme_question.tsx'
 import { WriteWholeQuestionView } from './write_whole_question.tsx'

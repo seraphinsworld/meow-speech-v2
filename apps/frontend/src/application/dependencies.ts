@@ -18,6 +18,10 @@ export function setAuthRepository(repository: AuthRepository): void {
   authRepository = repository
 }
 
+export function resetAuthRepository(): void {
+  authRepository = undefined
+}
+
 export function getUnitRepository(): UnitRepository {
   if (!unitRepository) {
     throw new Error('UnitRepository has not been configured')
@@ -30,6 +34,10 @@ export function setUnitRepository(repository: UnitRepository): void {
   unitRepository = repository
 }
 
+export function resetUnitRepository(): void {
+  unitRepository = undefined
+}
+
 export function getLevelRepository(): LevelRepository {
   if (!levelRepository) {
     throw new Error('LevelRepository has not been configured')
@@ -40,4 +48,8 @@ export function getLevelRepository(): LevelRepository {
 
 export function setLevelRepository(repository: LevelRepository): void {
   levelRepository = repository
+}
+
+export function resetLevelRepository(): void {
+  levelRepository = undefined
 }

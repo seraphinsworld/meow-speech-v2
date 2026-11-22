@@ -2,11 +2,7 @@ import { useState } from 'react'
 import { Navigate, useParams } from 'react-router'
 import { useLevel } from '../../application/use_level.ts'
 import { useUnits } from '../../application/use_units.ts'
-import {
-  isAnswerCorrect,
-  type Question,
-  type QuestionAnswer,
-} from '../../domain/models/question.ts'
+import type { Question, QuestionAnswer } from '../../domain/models/question/question.ts'
 import { isLevelActive, isUnitActive } from '../../domain/models/units.ts'
 import { AppHeader } from '../components/app_header.tsx'
 import { LevelSummary } from '../components/questions/level_summary.tsx'
@@ -93,7 +89,7 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
   function submitAnswer(answer: QuestionAnswer) {
     if (revealedQuestion) return
 
-    if (isAnswerCorrect(question, answer)) {
+    if (question.checkAnswer(answer)) {
       setQuestionIndex((current) => current + 1)
       return
     }

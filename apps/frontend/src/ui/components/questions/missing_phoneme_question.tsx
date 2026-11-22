@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { MissingPhonemeQuestion, QuestionAnswer } from '../../../domain/models/question.ts'
+import type { MissingPhonemeQuestion, QuestionAnswer } from '../../../domain/models/question/question.ts'
 import { WordPrompt } from './word_prompt.tsx'
 
 type Props = {

@@ -1,6 +1,6 @@
-import type { Phoneme, Question } from './question.ts'
+import type { Question } from './question/question.ts'
 
 export type Level = {
-  keyboardPhonemes: Phoneme[]
+  keyboardPhonemes: string[]
   questions: Question[]
 }

@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import type { Question } from '../../../domain/models/question.ts'
+import type { Question } from '../../../domain/models/question/question.ts'
 import { MistakeReview } from './mistake_review.tsx'
 
 type Props = {

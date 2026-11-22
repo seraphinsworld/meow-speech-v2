@@ -1,4 +1,4 @@
-import type { Question } from '../../../domain/models/question.ts'
+import type { Question } from '../../../domain/models/question/question.ts'
 import { correctionForQuestion } from './question_feedback.tsx'
 
 export function MistakeReview({ mistakes }: { mistakes: Question[] }) {
