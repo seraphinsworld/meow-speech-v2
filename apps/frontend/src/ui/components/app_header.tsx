@@ -3,15 +3,15 @@ import { Link } from 'react-router'
 type Props = {
   onLogout: () => void
   isLoggingOut: boolean
-  backToUnits?: boolean
+  backTo?: { to: string; label: string }
 }
 
-export function AppHeader({ onLogout, isLoggingOut, backToUnits = false }: Props) {
+export function AppHeader({ onLogout, isLoggingOut, backTo }: Props) {
   return (
     <header className="topbar">
-      {backToUnits ? (
-        <Link className="text-button back-link" to="/">
-          ← Retour aux unités
+      {backTo ? (
+        <Link className="text-button back-link" to={backTo.to}>
+          ← {backTo.label}
         </Link>
       ) : (
         <Link className="brand" to="/">

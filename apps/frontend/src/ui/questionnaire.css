@@ -1,0 +1,248 @@
+.questionnaire-screen {
+  min-height: 100vh;
+  padding-bottom: 64px;
+  background: radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.85), transparent 32%), #edf2ed;
+}
+
+.questionnaire-content {
+  width: min(calc(100% - 32px), 760px);
+  margin: 44px auto;
+}
+
+.question-progress {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.question-progress-track {
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dce5dc;
+}
+
+.question-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #85a18a, #d7a466);
+  transition: width 180ms ease;
+}
+
+.questionnaire-card {
+  border: 1px solid #e1e8e0;
+  border-radius: 22px;
+  padding: clamp(22px, 5vw, 42px);
+  background: var(--paper);
+  box-shadow: 0 20px 60px rgba(45, 55, 44, 0.08);
+}
+
+.questionnaire-card h1 {
+  margin: 8px 0 28px;
+  font-size: clamp(28px, 6vw, 38px);
+  letter-spacing: -1.4px;
+}
+
+.question-content {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+}
+
+.question-word-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.question-word {
+  margin: 0;
+  color: #4d2a59;
+  font-size: clamp(40px, 11vw, 64px);
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.question-audio-button {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+}
+
+.question-instruction {
+  margin: -4px 0 0;
+  color: #657565;
+  font-size: 14px;
+  text-align: center;
+}
+
+.phoneme-row,
+.phoneme-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+}
+
+.phoneme-tile,
+.phoneme-option {
+  display: inline-flex;
+  min-width: 54px;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dfe7de;
+  border-radius: 16px;
+  padding: 0 14px;
+  background: #fbfcfa;
+  color: #4d5f50;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+button.phoneme-tile,
+button.phoneme-option {
+  cursor: pointer;
+}
+
+button.phoneme-tile:disabled,
+button.phoneme-option:disabled {
+  cursor: not-allowed;
+}
+
+.phoneme-tile--filled,
+.phoneme-option--selected {
+  border-color: #97b09a;
+  background: #e8f0e7;
+  color: var(--green);
+}
+
+.phoneme-tile--blank {
+  border-style: dashed;
+  border-color: #d7a466;
+  background: #fff8e9;
+  color: #b17832;
+}
+
+.phoneme-tile--selectable:hover:not(:disabled),
+.phoneme-option:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: #97b09a;
+}
+
+.question-submit {
+  min-width: 180px;
+  margin-top: 4px;
+  text-decoration: none;
+}
+
+.secondary-button {
+  min-height: 44px;
+  border: 1px solid #dfe7de;
+  border-radius: 10px;
+  padding: 0 18px;
+  background: #fff;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.question-feedback {
+  display: grid;
+  gap: 5px;
+  margin-top: 22px;
+  border: 1px solid #f0dfc6;
+  border-radius: 12px;
+  padding: 15px 17px;
+  background: #fff8eb;
+  color: #72562e;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.question-feedback strong {
+  color: #805b25;
+}
+
+.level-summary {
+  width: min(calc(100% - 32px), 760px);
+  margin: 60px auto;
+}
+
+.level-summary > h1 {
+  margin-bottom: 8px;
+}
+
+.summary-score,
+.summary-perfect {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.summary-perfect {
+  margin: 28px 0;
+  color: var(--green);
+}
+
+.mistake-review {
+  margin: 28px 0;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+
+.mistake-review h2 {
+  margin: 8px 0;
+  font-size: 22px;
+}
+
+.mistake-review > p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.mistake-review-list {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mistake-review-item {
+  display: grid;
+  gap: 5px;
+  border-radius: 10px;
+  padding: 13px 15px;
+  background: #f5f6f1;
+  color: #626b5f;
+  font-size: 13px;
+}
+
+.mistake-review-item strong {
+  color: var(--ink);
+  font-size: 15px;
+}
+
+@media (max-width: 520px) {
+  .questionnaire-content {
+    margin-top: 24px;
+  }
+
+  .question-progress {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

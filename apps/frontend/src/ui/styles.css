@@ -454,6 +454,7 @@ button:disabled {
   color: var(--muted);
   cursor: not-allowed;
   text-align: left;
+  text-decoration: none;
 }
 .level-card--active {
   border-color: #c8d8c9;

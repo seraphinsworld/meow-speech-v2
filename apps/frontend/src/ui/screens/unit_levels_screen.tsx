@@ -15,7 +15,11 @@ export function UnitLevelsScreen({ onLogout, isLoggingOut }: Props) {
   if (isLoading) {
     return (
       <main className="account-layout">
-        <AppHeader onLogout={onLogout} isLoggingOut={isLoggingOut} backToUnits/>
+        <AppHeader
+          onLogout={onLogout}
+          isLoggingOut={isLoggingOut}
+          backTo={{ to: '/', label: 'Retour aux unités' }}
+        />
         <section className="levels-section">
           <p className="units-state" role="status">
             Chargement des niveaux…
@@ -28,7 +32,11 @@ export function UnitLevelsScreen({ onLogout, isLoggingOut }: Props) {
   if (error) {
     return (
       <main className="account-layout">
-        <AppHeader onLogout={onLogout} isLoggingOut={isLoggingOut} backToUnits/>
+        <AppHeader
+          onLogout={onLogout}
+          isLoggingOut={isLoggingOut}
+          backTo={{ to: '/', label: 'Retour aux unités' }}
+        />
         <section className="levels-section">
           <p className="units-state units-error" role="alert">
             {error instanceof Error ? error.message : 'Impossible de charger les niveaux.'}
@@ -46,7 +54,11 @@ export function UnitLevelsScreen({ onLogout, isLoggingOut }: Props) {
 
   return (
     <main className="account-layout">
-      <AppHeader onLogout={onLogout} isLoggingOut={isLoggingOut} backToUnits/>
+      <AppHeader
+        onLogout={onLogout}
+        isLoggingOut={isLoggingOut}
+        backTo={{ to: '/', label: 'Retour aux unités' }}
+      />
 
       <section className="levels-section" aria-labelledby="unit-levels-heading">
         <span className="eyebrow">TON PARCOURS · {unit.slug.toUpperCase()}</span>
@@ -62,7 +74,7 @@ export function UnitLevelsScreen({ onLogout, isLoggingOut }: Props) {
 
             return (
               <li key={level}>
-                <LevelCard level={level} active={active} />
+                <LevelCard unitId={unit.id} level={level} active={active} />
               </li>
             )
           })}
