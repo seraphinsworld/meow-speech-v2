@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import type { LoginCredentials, SignupDetails, User } from '../domain/auth'
+import type { LoginCredentials, SignupDetails, User } from '../domain/models/user.ts'
 import { getAuthRepository } from './dependencies'
 
 const profileKey = ['auth', 'profile']

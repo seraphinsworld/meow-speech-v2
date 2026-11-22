@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import type { LoginCredentials, SignupDetails } from '../domain/auth'
+import type { LoginCredentials, SignupDetails } from '../domain/models/user.ts'
 
 type Props = {
   onLogin: (credentials: LoginCredentials) => Promise<unknown>

@@ -2,14 +2,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import type { AuthRepository } from '../src/domain/auth_repository'
-import type { User } from '../src/domain/auth'
-import { resetAuthRepository, setAuthRepository } from '../src/application/dependencies'
+import type { AuthRepository } from '../src/domain/repositories/auth_repository.ts'
+import type { UnitRepository } from '../src/domain/repositories/unit_repository.ts'
+import type { User } from '../src/domain/models/user.ts'
+import {
+  resetAuthRepository,
+  resetUnitRepository,
+  setAuthRepository,
+  setUnitRepository,
+} from '../src/application/dependencies'
 import { App } from '../src/ui/app'
 
 afterEach(() => {
   cleanup()
   resetAuthRepository()
+  resetUnitRepository()
 })
 
 describe('App authentication', () => {
@@ -34,6 +41,8 @@ describe('App authentication', () => {
       }),
     }
     setAuthRepository(authRepository)
+    const unitRepository: UnitRepository = { list: vi.fn(async () => []) }
+    setUnitRepository(unitRepository)
 
     const queryClient = new QueryClient({
       defaultOptions: { queries: { retry: false }, mutations: { retry: false } },

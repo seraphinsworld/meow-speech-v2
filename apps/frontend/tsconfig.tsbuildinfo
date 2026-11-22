@@ -1,1 +1,0 @@
-{"root":["./src/main.tsx","./src/vite-env.d.ts","./src/application/use_auth.ts","./src/components/account_screen.tsx","./src/components/auth_screen.tsx","./src/domain/auth.ts","./src/infrastructure/http/api_client.ts","./src/infrastructure/http/token_store.ts","./src/infrastructure/repositories/auth_repository.ts","./src/ui/app.tsx"],"version":"6.0.3"}

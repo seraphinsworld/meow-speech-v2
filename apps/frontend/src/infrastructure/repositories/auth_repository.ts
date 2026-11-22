@@ -1,5 +1,5 @@
-import type { LoginCredentials, SignupDetails, User } from '../../domain/auth'
-import type { AuthRepository } from '../../domain/auth_repository'
+import type { LoginCredentials, SignupDetails, User } from '../../domain/models/user'
+import type { AuthRepository } from '../../domain/repositories/auth_repository'
 import { ApiError, apiRequest } from '../http/api_client'
 import { tokenStore } from '../http/token_store'
 

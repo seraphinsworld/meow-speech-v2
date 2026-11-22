@@ -1,4 +1,4 @@
-import type { LoginCredentials, SignupDetails, User } from './auth'
+import type { LoginCredentials, SignupDetails, User } from '../models/user'
 
 /** Contract used by the application layer to perform authentication actions. */
 export interface AuthRepository {
