@@ -21,9 +21,14 @@ export function AppHeader({ onLogout, isLoggingOut, backTo }: Props) {
           <span>meow speech</span>
         </Link>
       )}
-      <button className="text-button" onClick={onLogout} disabled={isLoggingOut}>
-        {isLoggingOut ? 'Déconnexion…' : 'Se déconnecter'}
-      </button>
+      <nav className="topbar-actions" aria-label="Navigation du compte">
+        <Link className="text-button" to="/settings">
+          Paramètres
+        </Link>
+        <button className="text-button" onClick={onLogout} disabled={isLoggingOut}>
+          {isLoggingOut ? 'Déconnexion…' : 'Se déconnecter'}
+        </button>
+      </nav>
     </header>
   )
 }

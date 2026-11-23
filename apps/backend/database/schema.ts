@@ -57,6 +57,29 @@ export class UnitRoundSessionSchema extends BaseModel {
   declare userId: number
 }
 
+export class UserSettingSchema extends BaseModel {
+  static $columns = ['autoPlayPronunciation', 'autoValidate', 'createdAt', 'id', 'pronunciationVolume', 'soundEffectsEnabled', 'soundEffectsVolume', 'updatedAt', 'userId'] as const
+  $columns = UserSettingSchema.$columns
+  @column()
+  declare autoPlayPronunciation: boolean
+  @column()
+  declare autoValidate: boolean
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare pronunciationVolume: number
+  @column()
+  declare soundEffectsEnabled: boolean
+  @column()
+  declare soundEffectsVolume: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class UserUnitProgressSchema extends BaseModel {
   static $columns = ['completedRounds', 'createdAt', 'id', 'levelsCompleted', 'unitId', 'updatedAt', 'userId'] as const
   $columns = UserUnitProgressSchema.$columns

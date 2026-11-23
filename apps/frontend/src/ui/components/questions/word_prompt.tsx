@@ -1,8 +1,10 @@
-type Props = { word: string; pronunciationUrl: string }
+type Props = { word: string; pronunciationUrl: string; volume: number }
 
-export function WordPrompt({ word, pronunciationUrl }: Props) {
+export function WordPrompt({ word, pronunciationUrl, volume }: Props) {
   function replay() {
-    void new Audio(pronunciationUrl).play().catch(() => undefined)
+    const audio = new Audio(pronunciationUrl)
+    audio.volume = volume
+    void audio.play().catch(() => undefined)
   }
 
   return (

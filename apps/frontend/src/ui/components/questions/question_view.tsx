@@ -7,10 +7,21 @@ type Props = {
   question: Question
   keyboardPhonemes: string[]
   disabled: boolean
+  autoValidate: boolean
+  pronunciationVolume: number
+  onTap: () => void
   onAnswer: (answer: QuestionAnswer) => void
 }
 
-export function QuestionView({ question, keyboardPhonemes, disabled, onAnswer }: Props) {
+export function QuestionView({
+  question,
+  keyboardPhonemes,
+  disabled,
+  autoValidate,
+  pronunciationVolume,
+  onTap,
+  onAnswer,
+}: Props) {
   switch (question.type) {
     case 'write_whole':
       return (
@@ -18,14 +29,33 @@ export function QuestionView({ question, keyboardPhonemes, disabled, onAnswer }:
           question={question}
           keyboardPhonemes={keyboardPhonemes}
           disabled={disabled}
+          autoValidate={autoValidate}
+          pronunciationVolume={pronunciationVolume}
+          onTap={onTap}
           onAnswer={onAnswer}
         />
       )
     case 'missing_phoneme':
       return (
-        <MissingPhonemeQuestionView question={question} disabled={disabled} onAnswer={onAnswer} />
+        <MissingPhonemeQuestionView
+          question={question}
+          disabled={disabled}
+          autoValidate={autoValidate}
+          pronunciationVolume={pronunciationVolume}
+          onTap={onTap}
+          onAnswer={onAnswer}
+        />
       )
     case 'find_mistake':
-      return <FindMistakeQuestionView question={question} disabled={disabled} onAnswer={onAnswer} />
+      return (
+        <FindMistakeQuestionView
+          question={question}
+          disabled={disabled}
+          autoValidate={autoValidate}
+          pronunciationVolume={pronunciationVolume}
+          onTap={onTap}
+          onAnswer={onAnswer}
+        />
+      )
   }
 }

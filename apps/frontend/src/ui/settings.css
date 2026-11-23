@@ -1,0 +1,136 @@
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.settings-section {
+  width: min(calc(100% - 40px), 720px);
+  margin: 64px auto 80px;
+}
+
+.settings-section h1 {
+  margin: 10px 0 0;
+  font-size: clamp(32px, 5vw, 48px);
+  letter-spacing: -1.8px;
+}
+
+.settings-section > .muted {
+  margin: 9px 0 28px;
+}
+
+.settings-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 8px 24px;
+  background: var(--paper);
+  box-shadow: 0 14px 40px rgba(45, 55, 44, 0.05);
+}
+
+.settings-toggle,
+.settings-volume {
+  display: flex;
+  min-height: 82px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.settings-toggle > span,
+.settings-volume > span {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-toggle strong,
+.settings-volume strong {
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.settings-toggle small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.settings-toggle input {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 auto;
+  accent-color: var(--green);
+}
+
+.settings-volume {
+  min-height: 76px;
+}
+
+.settings-volume > span {
+  width: 190px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings-volume output {
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.settings-volume input {
+  width: min(45%, 260px);
+  accent-color: var(--green);
+}
+
+.settings-volume--disabled {
+  opacity: 0.45;
+}
+
+.settings-actions {
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.settings-saved {
+  color: var(--green);
+  font-size: 12px;
+}
+
+.settings-error {
+  margin-top: 14px;
+  color: #a64f36;
+  font-size: 13px;
+}
+
+@media (max-width: 560px) {
+  .settings-section {
+    margin-top: 42px;
+  }
+
+  .settings-card {
+    padding: 4px 16px;
+  }
+
+  .settings-toggle,
+  .settings-volume {
+    gap: 12px;
+  }
+
+  .settings-volume > span {
+    width: 155px;
+  }
+
+  .settings-volume input {
+    width: 36%;
+  }
+
+  .topbar-actions {
+    gap: 14px;
+  }
+}

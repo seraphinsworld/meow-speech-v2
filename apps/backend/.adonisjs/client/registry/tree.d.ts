@@ -17,6 +17,10 @@ export interface ApiDefinition {
     accessTokens: {
       destroy: typeof routes['profile.access_tokens.destroy']
     }
+    userSettings: {
+      show: typeof routes['profile.user_settings.show']
+      update: typeof routes['profile.user_settings.update']
+    }
   }
   units: {
     index: typeof routes['units.index']

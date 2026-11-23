@@ -12,6 +12,7 @@ import router from '@adonisjs/core/services/router'
 import { controllers } from '#generated/controllers'
 const UnitsController = () => import('#controllers/units_controller')
 const LevelsController = () => import('#controllers/levels_controller')
+const UserSettingsController = () => import('#controllers/user_settings_controller')
 
 router.get('/', () => {
   return { hello: 'world' }
@@ -31,6 +32,8 @@ router
       .group(() => {
         router.get('profile', [controllers.Profile, 'show'])
         router.post('logout', [controllers.AccessTokens, 'destroy'])
+        router.get('settings', [UserSettingsController, 'show'])
+        router.put('settings', [UserSettingsController, 'update'])
       })
       .prefix('account')
       .as('profile')

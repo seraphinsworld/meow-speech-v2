@@ -1,26 +1,48 @@
 import { useState } from 'react'
-import type { QuestionAnswer, WriteWholeQuestion } from '../../../domain/models/question/question.ts'
+import type {
+  QuestionAnswer,
+  WriteWholeQuestion,
+} from '../../../domain/models/question/question.ts'
 import { WordPrompt } from './word_prompt.tsx'
 
 type Props = {
   question: WriteWholeQuestion
   keyboardPhonemes: string[]
   disabled: boolean
+  autoValidate: boolean
+  pronunciationVolume: number
+  onTap: () => void
   onAnswer: (answer: QuestionAnswer) => void
 }
 
-export function WriteWholeQuestionView({ question, keyboardPhonemes, disabled, onAnswer }: Props) {
+export function WriteWholeQuestionView({
+  question,
+  keyboardPhonemes,
+  disabled,
+  autoValidate,
+  pronunciationVolume,
+  onTap,
+  onAnswer,
+}: Props) {
   const [answer, setAnswer] = useState<string[]>([])
 
   function addPhoneme(phoneme: string) {
-    setAnswer((current) =>
-      current.length < question.answerPhonemes.length ? [...current, phoneme] : current
-    )
+    onTap()
+    if (answer.length >= question.answerPhonemes.length) return
+    const nextAnswer = [...answer, phoneme]
+    setAnswer(nextAnswer)
+    if (autoValidate && nextAnswer.length === question.answerPhonemes.length) {
+      onAnswer({ type: 'write_whole', phonemes: nextAnswer })
+    }
   }
 
   return (
     <div className="question-content">
-      <WordPrompt word={question.promptWord} pronunciationUrl={question.pronunciationUrl} />
+      <WordPrompt
+        word={question.promptWord}
+        pronunciationUrl={question.pronunciationUrl}
+        volume={pronunciationVolume}
+      />
       <p className="question-instruction">Écris toute la transcription phonétique.</p>
       <div className="phoneme-row" aria-label="Ta transcription">
         {question.answerPhonemes.map((_, index) => (
@@ -29,7 +51,10 @@ export function WriteWholeQuestionView({ question, keyboardPhonemes, disabled, o
             key={`${question.id}-slot-${index}`}
             type="button"
             disabled={disabled || !answer[index]}
-            onClick={() => setAnswer((current) => current.filter((__, item) => item !== index))}
+            onClick={() => {
+              onTap()
+              setAnswer((current) => current.filter((__, item) => item !== index))
+            }}
             aria-label={answer[index] ? `Retirer ${answer[index]}` : 'Emplacement vide'}
           >
             {answer[index] ?? '·'}
@@ -49,14 +74,19 @@ export function WriteWholeQuestionView({ question, keyboardPhonemes, disabled, o
           </button>
         ))}
       </div>
-      <button
-        className="primary-button question-submit"
-        type="button"
-        disabled={disabled || answer.length !== question.answerPhonemes.length}
-        onClick={() => onAnswer({ type: 'write_whole', phonemes: answer })}
-      >
-        Valider
-      </button>
+      {!autoValidate && (
+        <button
+          className="primary-button question-submit"
+          type="button"
+          disabled={disabled || answer.length !== question.answerPhonemes.length}
+          onClick={() => {
+            onTap()
+            onAnswer({ type: 'write_whole', phonemes: answer })
+          }}
+        >
+          Valider
+        </button>
+      )}
     </div>
   )
 }

@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate, useParams } from 'react-router'
 import { useLevel } from '../../application/use_level.ts'
 import { useLevelCompletion } from '../../application/use_level_completion.ts'
 import { useUnits } from '../../application/use_units.ts'
+import { useUserSettings } from '../../application/use_user_settings.ts'
+import { playKeyboardTap, playSuccessChime } from '../../infrastructure/audio/feedback_sounds.ts'
 import type { Question, QuestionAnswer } from '../../domain/models/question/question.ts'
 import { isLevelActive, isUnitActive } from '../../domain/models/units.ts'
 import { AppHeader } from '../components/app_header.tsx'
@@ -26,6 +28,7 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
     Number.isInteger(unitId) && unitId > 0 && Number.isInteger(levelNumber) && levelNumber > 0
   const unitsQuery = useUnits()
   const levelQuery = useLevel(unitId, levelNumber)
+  const { settings } = useUserSettings()
   const [questionIndex, setQuestionIndex] = useState(0)
   const [revealedQuestion, setRevealedQuestion] = useState<Question | null>(null)
   const [mistakes, setMistakes] = useState<Question[]>([])
@@ -33,7 +36,21 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
     Array<{ questionId: string; word: string; correct: boolean }>
   >([])
   const level = levelQuery.level
+  const question = level?.questions[questionIndex]
   const isFinished = Boolean(level && questionIndex >= level.questions.length)
+
+  useEffect(() => {
+    if (!question || !settings.autoPlayPronunciation) return
+    const audio = new Audio(question.pronunciationUrl)
+    audio.volume = settings.pronunciationVolume
+    void audio.play().catch(() => undefined)
+    return () => audio.pause()
+  }, [
+    question?.id,
+    question?.pronunciationUrl,
+    settings.autoPlayPronunciation,
+    settings.pronunciationVolume,
+  ])
   const completion = useLevelCompletion({
     enabled: isFinished,
     unitId,
@@ -99,26 +116,28 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
     )
   }
 
-  const question = level.questions[questionIndex]
+  if (!question) return <Navigate to={`/units/${unitId}`} replace />
+  const currentQuestion = question
 
   function submitAnswer(answer: QuestionAnswer) {
     if (revealedQuestion) return
 
-    if (question.checkAnswer(answer)) {
+    if (currentQuestion.checkAnswer(answer)) {
+      if (settings.soundEffectsEnabled) playSuccessChime(settings.soundEffectsVolume)
       setResults((current) => [
         ...current,
-        { questionId: question.id, word: question.vocabularyWord, correct: true },
+        { questionId: currentQuestion.id, word: currentQuestion.vocabularyWord, correct: true },
       ])
       setQuestionIndex((current) => current + 1)
       return
     }
 
-    setMistakes((current) => [...current, question])
+    setMistakes((current) => [...current, currentQuestion])
     setResults((current) => [
       ...current,
-      { questionId: question.id, word: question.vocabularyWord, correct: false },
+      { questionId: currentQuestion.id, word: currentQuestion.vocabularyWord, correct: false },
     ])
-    setRevealedQuestion(question)
+    setRevealedQuestion(currentQuestion)
   }
 
   function continueAfterCorrection() {
@@ -153,6 +172,11 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
             question={question}
             keyboardPhonemes={level.keyboardPhonemes}
             disabled={revealedQuestion !== null}
+            autoValidate={settings.autoValidate}
+            pronunciationVolume={settings.pronunciationVolume}
+            onTap={() => {
+              if (settings.soundEffectsEnabled) playKeyboardTap(settings.soundEffectsVolume)
+            }}
             onAnswer={submitAnswer}
           />
           {revealedQuestion && (

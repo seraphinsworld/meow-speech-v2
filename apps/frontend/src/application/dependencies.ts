@@ -1,10 +1,12 @@
 import type { AuthRepository } from '../domain/repositories/auth_repository.ts'
 import type { UnitRepository } from '../domain/repositories/unit_repository.ts'
 import type { LevelRepository } from '../domain/repositories/level_repository.ts'
+import type { UserSettingsRepository } from '../domain/repositories/user_settings_repository.ts'
 
 let authRepository: AuthRepository | undefined
 let unitRepository: UnitRepository | undefined
 let levelRepository: LevelRepository | undefined
+let userSettingsRepository: UserSettingsRepository | undefined
 
 export function getAuthRepository(): AuthRepository {
   if (!authRepository) {
@@ -52,4 +54,19 @@ export function setLevelRepository(repository: LevelRepository): void {
 
 export function resetLevelRepository(): void {
   levelRepository = undefined
+}
+
+export function getUserSettingsRepository(): UserSettingsRepository {
+  if (!userSettingsRepository) {
+    throw new Error('UserSettingsRepository has not been configured')
+  }
+  return userSettingsRepository
+}
+
+export function setUserSettingsRepository(repository: UserSettingsRepository): void {
+  userSettingsRepository = repository
+}
+
+export function resetUserSettingsRepository(): void {
+  userSettingsRepository = undefined
 }

@@ -32,6 +32,18 @@ const routes = {
     tokens: [[0,"api"],[0,"v1"],[0,"account"],[0,"logout"]],
     types: placeholder as Registry['profile.access_tokens.destroy']['types'],
   },
+  'profile.user_settings.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/account/settings',
+    tokens: [[0,"api"],[0,"v1"],[0,"account"],[0,"settings"]],
+    types: placeholder as Registry['profile.user_settings.show']['types'],
+  },
+  'profile.user_settings.update': {
+    methods: ["PUT"],
+    pattern: '/api/v1/account/settings',
+    tokens: [[0,"api"],[0,"v1"],[0,"account"],[0,"settings"]],
+    types: placeholder as Registry['profile.user_settings.update']['types'],
+  },
   'units.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/units',

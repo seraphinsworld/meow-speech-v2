@@ -60,6 +60,32 @@ export interface Registry {
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['destroy']>>>
     }
   }
+  'profile.user_settings.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/account/settings'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/user_settings_controller').default['show']>>>
+    }
+  }
+  'profile.user_settings.update': {
+    methods: ["PUT"]
+    pattern: '/api/v1/account/settings'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings_controller').default['update']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/user_settings_controller').default['update']>>>
+    }
+  }
   'units.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/units'
