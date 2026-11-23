@@ -99,6 +99,19 @@ export interface Registry {
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/units_controller').default['index']>>>
     }
   }
+  'units.vocabulary': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/account/vocabulary'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/units_controller').default['vocabulary']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/units_controller').default['vocabulary']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/units_controller').default['vocabulary']>>>
+    }
+  }
   'levels.show': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/units/:unitId/levels/:level'

@@ -26,7 +26,10 @@ export function useLevelCompletion({ enabled, unitId, levelNumber, sessionId, re
     try {
       await getLevelRepository().completeLevel(unitId, levelNumber, sessionId, results)
       setStatus('saved')
-      await queryClient.invalidateQueries({ queryKey: ['units'] })
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['units'] }).catch(() => undefined),
+        queryClient.invalidateQueries({ queryKey: ['vocabulary'] }).catch(() => undefined),
+      ])
     } catch (reason) {
       setStatus('error')
       setError(reason instanceof Error ? reason.message : 'Unable to save your progress.')

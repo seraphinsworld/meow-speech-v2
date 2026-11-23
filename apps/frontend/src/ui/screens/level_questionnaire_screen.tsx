@@ -26,6 +26,23 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
   const levelNumber = Number(rawLevelNumber)
   const validRoute =
     Number.isInteger(unitId) && unitId > 0 && Number.isInteger(levelNumber) && levelNumber > 0
+
+  if (!validRoute) return <Navigate to="/" replace />
+
+  return (
+    <LevelQuestionnaireRun
+      key={`${unitId}:${levelNumber}`}
+      unitId={unitId}
+      levelNumber={levelNumber}
+      onLogout={onLogout}
+      isLoggingOut={isLoggingOut}
+    />
+  )
+}
+
+type RunProps = Props & { unitId: number; levelNumber: number }
+
+function LevelQuestionnaireRun({ unitId, levelNumber, onLogout, isLoggingOut }: RunProps) {
   const unitsQuery = useUnits()
   const levelQuery = useLevel(unitId, levelNumber)
   const { settings } = useUserSettings()
@@ -59,9 +76,10 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
     results,
   })
 
-  if (!validRoute) return <Navigate to="/" replace />
-
   const unit = unitsQuery.units.find((candidate) => candidate.id === unitId)
+  const nextUnit = unitsQuery.units.find(
+    (candidate) => candidate.id === unitId + 1 && isUnitActive(candidate)
+  )
 
   if (unitsQuery.isLoading || levelQuery.isLoading) {
     return (
@@ -107,6 +125,8 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
       <LevelSummary
         unitId={unitId}
         levelNumber={levelNumber}
+        nextLevelNumber={unit && levelNumber < unit.totalLevels ? levelNumber + 1 : null}
+        nextUnit={nextUnit ? { id: nextUnit.id, title: nextUnit.title } : null}
         questionCount={level.questions.length}
         mistakes={mistakes}
         completionStatus={completion.status}

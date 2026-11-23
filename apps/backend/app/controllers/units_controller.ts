@@ -6,4 +6,9 @@ export default class UnitsController {
     const user = auth.getUserOrFail()
     return response.ok({ data: await UNIT_SERVICE.userUnits(user.id) })
   }
+
+  async vocabulary({ auth, response }: HttpContext) {
+    const user = auth.getUserOrFail()
+    return response.ok({ data: await UNIT_SERVICE.userVocabulary(user.id) })
+  }
 }

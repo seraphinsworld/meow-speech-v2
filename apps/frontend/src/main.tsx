@@ -15,6 +15,7 @@ import { App } from './ui/app'
 import './ui/styles.css'
 import './ui/questionnaire.css'
 import './ui/settings.css'
+import './ui/vocabulary.css'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, staleTime: 15_000 } },

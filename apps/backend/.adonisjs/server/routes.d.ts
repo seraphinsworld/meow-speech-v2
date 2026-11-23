@@ -11,6 +11,7 @@ export type ScannedRoutes = {
     'profile.user_settings.show': { paramsTuple?: []; params?: {} }
     'profile.user_settings.update': { paramsTuple?: []; params?: {} }
     'units.index': { paramsTuple?: []; params?: {} }
+    'units.vocabulary': { paramsTuple?: []; params?: {} }
     'levels.show': { paramsTuple: [ParamValue,ParamValue]; params: {'unitId': ParamValue,'level': ParamValue} }
     'levels.complete': { paramsTuple: [ParamValue,ParamValue]; params: {'unitId': ParamValue,'level': ParamValue} }
   }
@@ -18,12 +19,14 @@ export type ScannedRoutes = {
     'profile.profile.show': { paramsTuple?: []; params?: {} }
     'profile.user_settings.show': { paramsTuple?: []; params?: {} }
     'units.index': { paramsTuple?: []; params?: {} }
+    'units.vocabulary': { paramsTuple?: []; params?: {} }
     'levels.show': { paramsTuple: [ParamValue,ParamValue]; params: {'unitId': ParamValue,'level': ParamValue} }
   }
   HEAD: {
     'profile.profile.show': { paramsTuple?: []; params?: {} }
     'profile.user_settings.show': { paramsTuple?: []; params?: {} }
     'units.index': { paramsTuple?: []; params?: {} }
+    'units.vocabulary': { paramsTuple?: []; params?: {} }
     'levels.show': { paramsTuple: [ParamValue,ParamValue]; params: {'unitId': ParamValue,'level': ParamValue} }
   }
   POST: {

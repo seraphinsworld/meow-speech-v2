@@ -5,6 +5,8 @@ import { MistakeReview } from './mistake_review.tsx'
 type Props = {
   unitId: number
   levelNumber: number
+  nextLevelNumber: number | null
+  nextUnit: { id: number; title: string } | null
   questionCount: number
   mistakes: Question[]
   completionStatus: 'pending' | 'saving' | 'saved' | 'error'
@@ -15,6 +17,8 @@ type Props = {
 export function LevelSummary({
   unitId,
   levelNumber,
+  nextLevelNumber,
+  nextUnit,
   questionCount,
   mistakes,
   completionStatus,
@@ -44,7 +48,21 @@ export function LevelSummary({
             </button>
           </p>
         )}
-        <Link className="primary-button question-submit" to={`/units/${unitId}`}>
+        {completionStatus === 'saved' && (nextLevelNumber || nextUnit) && (
+          <nav className="summary-next-actions" aria-label="Continuer ton parcours">
+            {nextLevelNumber && (
+              <Link className="primary-button" to={`/units/${unitId}/levels/${nextLevelNumber}`}>
+                Passer au niveau suivant <span aria-hidden="true">→</span>
+              </Link>
+            )}
+            {nextUnit && (
+              <Link className="secondary-button" to={`/units/${nextUnit.id}`}>
+                Découvrir les prochains sons <span aria-hidden="true">→</span>
+              </Link>
+            )}
+          </nav>
+        )}
+        <Link className="summary-back-link" to={`/units/${unitId}`}>
           Retour aux niveaux
         </Link>
       </section>

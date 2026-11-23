@@ -22,6 +22,9 @@ export function AppHeader({ onLogout, isLoggingOut, backTo }: Props) {
         </Link>
       )}
       <nav className="topbar-actions" aria-label="Navigation du compte">
+        <Link className="text-button" to="/vocabulary">
+          My Vocabulary
+        </Link>
         <Link className="text-button" to="/settings">
           Paramètres
         </Link>

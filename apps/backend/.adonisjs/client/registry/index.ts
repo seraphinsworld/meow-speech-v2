@@ -50,6 +50,12 @@ const routes = {
     tokens: [[0,"api"],[0,"v1"],[0,"units"]],
     types: placeholder as Registry['units.index']['types'],
   },
+  'units.vocabulary': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/account/vocabulary',
+    tokens: [[0,"api"],[0,"v1"],[0,"account"],[0,"vocabulary"]],
+    types: placeholder as Registry['units.vocabulary']['types'],
+  },
   'levels.show': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/units/:unitId/levels/:level',

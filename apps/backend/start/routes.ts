@@ -40,6 +40,7 @@ router
       .use(middleware.auth())
 
     router.get('units', [UnitsController, 'index']).use(middleware.auth())
+    router.get('account/vocabulary', [UnitsController, 'vocabulary']).use(middleware.auth())
     router.get('units/:unitId/levels/:level', [LevelsController, 'show']).use(middleware.auth())
     router
       .post('units/:unitId/levels/:level/complete', [LevelsController, 'complete'])

@@ -186,6 +186,40 @@ button.phoneme-option:disabled {
   margin-bottom: 8px;
 }
 
+.summary-next-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 28px 0 14px;
+}
+
+.secondary-button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  border: 1px solid #dce3d8;
+  border-radius: 7px;
+  padding: 0 17px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.secondary-button:hover {
+  background: #f3f6f1;
+}
+
+.summary-back-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .summary-score,
 .summary-perfect {
   color: var(--muted);

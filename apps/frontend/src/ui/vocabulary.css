@@ -1,0 +1,152 @@
+.vocabulary-section {
+  width: min(calc(100% - 40px), 1040px);
+  margin: 54px auto 90px;
+}
+
+.vocabulary-section > h1 {
+  margin: 10px 0 0;
+  font-size: clamp(36px, 5vw, 52px);
+  letter-spacing: -2px;
+}
+
+.vocabulary-section > .muted {
+  margin: 10px 0 34px;
+}
+
+.vocabulary-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 36px;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.vocabulary-player > span:last-child {
+  overflow-wrap: anywhere;
+}
+
+.vocabulary-avatar {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--sage);
+  color: var(--green);
+}
+
+.vocabulary-units {
+  display: grid;
+  gap: 20px;
+}
+
+.vocabulary-unit {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px clamp(18px, 4vw, 32px);
+  background: var(--paper);
+}
+
+.vocabulary-unit h2 {
+  margin: 8px 0 0;
+  font-size: clamp(23px, 3vw, 30px);
+  letter-spacing: -1px;
+}
+
+.vocabulary-phonemes {
+  margin: 8px 0 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.vocabulary-group {
+  border-top: 1px solid var(--line);
+  padding: 19px 0 3px;
+}
+
+.vocabulary-group h3 {
+  margin: 0 0 14px;
+  color: var(--green);
+  font-size: 14px;
+}
+
+.vocabulary-word-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vocabulary-word-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.vocabulary-word-list li + li::before {
+  content: '·';
+  margin-right: 7px;
+  color: #a8aea3;
+}
+
+.vocabulary-word-list small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.vocabulary-empty {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.vocabulary-unit--locked {
+  display: flex;
+  min-height: 120px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f1f0eb;
+  color: #999d92;
+  text-align: center;
+}
+
+.vocabulary-unit--locked h2 {
+  font-size: 19px;
+}
+
+.vocabulary-unit--locked p {
+  margin: 8px 0 0;
+  font-size: 12px;
+}
+
+.vocabulary-lock {
+  color: #c4c7bd;
+  font-size: 20px;
+}
+
+@media (max-width: 560px) {
+  .vocabulary-section {
+    margin-top: 38px;
+  }
+
+  .vocabulary-player {
+    margin-bottom: 28px;
+  }
+
+  .vocabulary-word-list {
+    justify-content: flex-start;
+    gap: 11px 13px;
+  }
+
+  .vocabulary-word-list li + li::before {
+    margin-right: 2px;
+  }
+}

@@ -3,6 +3,7 @@ import { AuthScreen } from './screens/auth_screen.tsx'
 import { UnitLevelsScreen } from './screens/unit_levels_screen.tsx'
 import { LevelQuestionnaireScreen } from './screens/level_questionnaire_screen.tsx'
 import { SettingsScreen } from './screens/settings_screen.tsx'
+import { VocabularyScreen } from './screens/vocabulary_screen.tsx'
 import { useAuth } from '../application/use_auth'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 
@@ -62,6 +63,16 @@ function AppContent() {
           path="/settings"
           element={
             <SettingsScreen
+              onLogout={() => void auth.logout.mutateAsync().catch(() => undefined)}
+              isLoggingOut={auth.logout.isPending}
+            />
+          }
+        />
+        <Route
+          path="/vocabulary"
+          element={
+            <VocabularyScreen
+              user={auth.user}
               onLogout={() => void auth.logout.mutateAsync().catch(() => undefined)}
               isLoggingOut={auth.logout.isPending}
             />
