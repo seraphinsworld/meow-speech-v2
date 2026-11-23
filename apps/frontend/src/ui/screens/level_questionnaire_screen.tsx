@@ -6,7 +6,7 @@ import { useUnits } from '../../application/use_units.ts'
 import { useUserSettings } from '../../application/use_user_settings.ts'
 import { playKeyboardTap, playSuccessChime } from '../../infrastructure/audio/feedback_sounds.ts'
 import type { Question, QuestionAnswer } from '../../domain/models/question/question.ts'
-import { isLevelActive, isUnitActive } from '../../domain/models/units.ts'
+import { isLevelPlayable, isUnitActive } from '../../domain/models/units.ts'
 import { AppHeader } from '../components/app_header.tsx'
 import { LevelSummary } from '../components/questions/level_summary.tsx'
 import { QuestionFeedback } from '../components/questions/question_feedback.tsx'
@@ -98,7 +98,7 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
   }
 
   if (!unit || !isUnitActive(unit)) return <Navigate to="/" replace />
-  if (!isLevelActive(unit, levelNumber)) return <Navigate to={`/units/${unitId}`} replace />
+  if (!isLevelPlayable(unit, levelNumber)) return <Navigate to={`/units/${unitId}`} replace />
 
   if (!level) return <Navigate to={`/units/${unitId}`} replace />
 

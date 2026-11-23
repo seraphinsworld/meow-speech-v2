@@ -22,6 +22,38 @@ export async function findActiveLevelRound(
     .first()) as StoredLevelRound | null
 }
 
+export async function findPausedLevelRound(
+  userId: number,
+  unitId: number,
+  level: number,
+  trx: TransactionClientContract
+): Promise<StoredLevelRound | null> {
+  return (await trx
+    .from('unit_round_sessions')
+    .where('user_id', userId)
+    .where('unit_id', unitId)
+    .where('level', level)
+    .where('state', 'paused')
+    .orderBy('id', 'desc')
+    .first()) as StoredLevelRound | null
+}
+
+export async function pauseLevelRound(roundId: number, trx: TransactionClientContract) {
+  await trx
+    .from('unit_round_sessions')
+    .where('id', roundId)
+    .where('state', 'active')
+    .update({ state: 'paused' })
+}
+
+export async function resumeLevelRound(roundId: number, trx: TransactionClientContract) {
+  await trx
+    .from('unit_round_sessions')
+    .where('id', roundId)
+    .where('state', 'paused')
+    .update({ state: 'active' })
+}
+
 export async function createLevelRound(
   {
     userId,

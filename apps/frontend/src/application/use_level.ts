@@ -6,11 +6,12 @@ export function useLevel(unitId: number, levelNumber: number) {
   const query = useQuery({
     queryKey: ['level', unitId, levelNumber],
     queryFn: () => repository.getLevel(unitId, levelNumber),
+    refetchOnMount: 'always',
   })
 
   return {
     level: query.data,
-    isLoading: query.isPending,
+    isLoading: query.isFetching,
     error: query.error,
   }
 }

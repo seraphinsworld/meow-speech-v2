@@ -1,5 +1,5 @@
 import { Navigate, useParams } from 'react-router'
-import { isLevelActive, isUnitActive } from '../../domain/models/units.ts'
+import { isLevelActive, isLevelCompleted, isUnitActive } from '../../domain/models/units.ts'
 import { useUnits } from '../../application/use_units.ts'
 import { AppHeader } from '../components/app_header.tsx'
 import { LevelCard } from '../components/level_card.tsx'
@@ -71,10 +71,11 @@ export function UnitLevelsScreen({ onLogout, isLoggingOut }: Props) {
         <ul className="level-list" aria-label={`Niveaux de ${unit.title}`}>
           {levels.map((level) => {
             const active = isLevelActive(unit, level)
+            const completed = isLevelCompleted(unit, level)
 
             return (
               <li key={level}>
-                <LevelCard unitId={unit.id} level={level} active={active} />
+                <LevelCard unitId={unit.id} level={level} active={active} completed={completed} />
               </li>
             )
           })}

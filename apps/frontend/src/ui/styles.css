@@ -466,6 +466,16 @@ button:disabled {
   border-color: #91aa94;
   transform: translateY(-1px);
 }
+.level-card--completed {
+  border-color: #d5e1d4;
+  background: #f3f6f1;
+  color: #617964;
+  cursor: pointer;
+}
+.level-card--completed:hover {
+  border-color: #91aa94;
+  transform: translateY(-1px);
+}
 .level-number {
   font-size: 24px;
   font-weight: 800;

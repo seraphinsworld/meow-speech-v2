@@ -20,7 +20,10 @@ import {
   createLevelRound,
   findActiveLevelRound,
   findActiveLevelRoundById,
+  findPausedLevelRound,
   markLevelRoundCompleted,
+  pauseLevelRound,
+  resumeLevelRound,
   type StoredLevelRound,
 } from './level_round_store.js'
 import { loadUnitWordBank } from './unit_word_bank.js'
@@ -43,10 +46,19 @@ export class LucidLevelRepository implements LevelRepository {
 
     return this.withTransaction(async (trx) => {
       await lockLearnerProgress(userId, trx)
-      await assertLevelIsPlayable(userId, unit, level, trx)
+      await assertLevelCanBePlayed(userId, unit, level, trx)
 
       const activeRound = await findActiveLevelRound(userId, unitId, trx)
-      if (activeRound) return this.resumeRound(activeRound, unit, level, wordBank)
+      if (activeRound && Number(activeRound.level) === level) {
+        return this.resumeRound(activeRound, unit, level, wordBank)
+      }
+      if (activeRound) await pauseLevelRound(activeRound.id, trx)
+
+      const pausedRound = await findPausedLevelRound(userId, unitId, level, trx)
+      if (pausedRound) {
+        await resumeLevelRound(pausedRound.id, trx)
+        return this.resumeRound(pausedRound, unit, level, wordBank)
+      }
 
       return this.startRound(userId, unit, level, wordBank, trx)
     })
@@ -66,6 +78,7 @@ export class LucidLevelRepository implements LevelRepository {
       await lockLearnerProgress(userId, trx)
       const round = await findActiveLevelRoundById(userId, unitId, level, sessionId, trx)
       if (!round) throw new InvalidLevelSubmissionError()
+      await assertLevelCanBePlayed(userId, unit, level, trx)
 
       const session = buildLevelSession(round, unit, wordBank)
       validateLevelResults(results, session.questions)
@@ -189,7 +202,7 @@ function normalizeWord(word: string) {
   return word.toLowerCase()
 }
 
-async function assertLevelIsPlayable(
+async function assertLevelCanBePlayed(
   userId: number,
   definition: UnitDefinition,
   level: number,
@@ -197,7 +210,7 @@ async function assertLevelIsPlayable(
 ) {
   const completedLevels = await loadCompletedLevels(userId, trx)
   const progression = createUserUnitProgression(definition, completedLevels)
-  if (!Number.isInteger(level) || !progression.isLevelActive(level)) {
+  if (!progression.canPlayLevel(level)) {
     throw new LevelNotFoundError()
   }
 }

@@ -1,18 +1,21 @@
 import { Link } from 'react-router'
 
-type Props = { unitId: number; level: number; active: boolean }
+type Props = { unitId: number; level: number; active: boolean; completed: boolean }
 
-export function LevelCard({ unitId, level, active }: Props) {
+export function LevelCard({ unitId, level, active, completed }: Props) {
   const content = (
     <>
       <span className="level-number">{level}</span>
-      <span>{active ? 'Disponible' : 'Verrouillé'}</span>
+      <span>{active ? 'Disponible' : completed ? 'Terminé' : 'Verrouillé'}</span>
     </>
   )
 
-  if (active) {
+  if (active || completed) {
     return (
-      <Link className="level-card level-card--active" to={`/units/${unitId}/levels/${level}`}>
+      <Link
+        className={`level-card ${active ? 'level-card--active' : 'level-card--completed'}`}
+        to={`/units/${unitId}/levels/${level}`}
+      >
         {content}
       </Link>
     )

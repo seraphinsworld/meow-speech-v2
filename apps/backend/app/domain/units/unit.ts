@@ -27,12 +27,12 @@ export class Unit {
   readonly isActive: boolean
   readonly currentLevel: number
   private readonly isUnlocked: boolean
-  private readonly previousUnitCompleted: boolean | null
+  private readonly previousUnitHasCompletedLevel: boolean | null
 
   constructor(
     definition: UnitDefinition,
     levelsCompleted: number,
-    previousUnitCompleted: boolean | null
+    previousUnitHasCompletedLevel: boolean | null
   ) {
     this.#definition = definition
     this.id = definition.id
@@ -41,20 +41,15 @@ export class Unit {
     this.activePhonemes = [...definition.activePhonemes]
     this.totalLevels = definition.totalLevels
     this.levelsCompleted = levelsCompleted
-    this.previousUnitCompleted = previousUnitCompleted
-    this.isUnlocked = definition.id === 1 || previousUnitCompleted === true
-    this.currentLevel = this.isUnlocked
-      ? definition.id === 1 && levelsCompleted === 0
-        ? 0
-        : Math.min(levelsCompleted + 1, definition.totalLevels)
-      : 0
-    this.isActive = Array.from({ length: definition.totalLevels }, (_, index) => index + 1).some(
-      (level) => this.isLevelActive(level)
-    )
+    this.previousUnitHasCompletedLevel = previousUnitHasCompletedLevel
+    this.isUnlocked = definition.id === 1 || previousUnitHasCompletedLevel === true
+    this.currentLevel =
+      this.isUnlocked && levelsCompleted < definition.totalLevels ? levelsCompleted + 1 : 0
+    this.isActive = this.isUnlocked && (levelsCompleted > 0 || this.currentLevel > 0)
   }
 
   get isCompleted() {
-    return this.levelsCompleted === this.totalLevels
+    return this.levelsCompleted >= this.totalLevels
   }
 
   isLevelActive(level: number) {
@@ -62,27 +57,35 @@ export class Unit {
       return false
     }
 
-    return level <= this.currentLevel || (this.id === 1 && level === 1)
+    return this.currentLevel > 0 && level === this.currentLevel
+  }
+
+  canPlayLevel(level: number) {
+    if (!Number.isInteger(level) || level < 1 || level > this.totalLevels || !this.isUnlocked) {
+      return false
+    }
+
+    return level <= this.levelsCompleted || this.isLevelActive(level)
   }
 
   canValidateLevel(level: number) {
-    return this.isActive && level === this.levelsCompleted + 1 && this.isLevelActive(level)
+    return this.canPlayLevel(level)
   }
 
-  /** Returns a new progression state after validating the expected next level. */
+  /** Returns a new progression state after completing a playable level or replay. */
   completeLevel(level: number): Unit {
     if (!this.isActive) {
       throw new UnitProgressionError('This unit is not active for the user.')
     }
 
-    if (!this.canValidateLevel(level)) {
+    if (!this.canPlayLevel(level)) {
       throw new UnitProgressionError(`Expected level ${this.levelsCompleted + 1}.`)
     }
 
     return new Unit(
       this.#definition,
-      this.levelsCompleted + 1,
-      this.previousUnitCompleted
+      Math.max(this.levelsCompleted, level),
+      this.previousUnitHasCompletedLevel
     )
   }
 }

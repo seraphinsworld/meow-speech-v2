@@ -20,15 +20,14 @@ export class LucidUnitRepository implements UnitRepository {
 
     return unitDefinitions.map((definition, index) => {
       const previousDefinition = unitDefinitions[index - 1]
-      const previousUnitCompleted = previousDefinition
-        ? (levelsCompletedByUnitId.get(previousDefinition.id) ?? 0) >=
-          previousDefinition.totalLevels
+      const previousUnitHasCompletedLevel = previousDefinition
+        ? (levelsCompletedByUnitId.get(previousDefinition.id) ?? 0) >= 1
         : null
 
       return new Unit(
         definition,
         levelsCompletedByUnitId.get(definition.id) ?? 0,
-        previousUnitCompleted
+        previousUnitHasCompletedLevel
       )
     })
   }
