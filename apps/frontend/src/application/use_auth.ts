@@ -7,12 +7,12 @@ const profileKey = ['auth', 'profile']
 export function useAuth() {
   const authRepository = getAuthRepository()
   const queryClient = useQueryClient()
-  const hasSession = authRepository.hasSession()
-
   const profile = useQuery({
     queryKey: profileKey,
-    queryFn: () => authRepository.profile(),
-    enabled: hasSession,
+    queryFn: async () => {
+      if (!(await authRepository.hasSession())) return null
+      return authRepository.profile()
+    },
     retry: false,
   })
 
@@ -39,7 +39,7 @@ export function useAuth() {
 
   return {
     user: profile.data ?? null,
-    isLoading: hasSession && profile.isPending,
+    isLoading: profile.isPending,
     login,
     signup,
     logout,

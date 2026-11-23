@@ -4,8 +4,8 @@ import { ApiError, apiRequest } from '../http/api_client'
 import { tokenStore } from '../http/token_store'
 
 export class HttpAuthRepository implements AuthRepository {
-  hasSession(): boolean {
-    return Boolean(tokenStore.get())
+  async hasSession(): Promise<boolean> {
+    return Boolean(await tokenStore.get())
   }
 
   async login(credentials: LoginCredentials): Promise<User> {
@@ -13,7 +13,7 @@ export class HttpAuthRepository implements AuthRepository {
       method: 'POST',
       body: JSON.stringify(credentials),
     })
-    tokenStore.set(result.data.token)
+    await tokenStore.set(result.data.token)
     return result.data.user
   }
 
@@ -22,7 +22,7 @@ export class HttpAuthRepository implements AuthRepository {
       method: 'POST',
       body: JSON.stringify(details),
     })
-    tokenStore.set(result.data.token)
+    await tokenStore.set(result.data.token)
     return result.data.user
   }
 
@@ -31,13 +31,13 @@ export class HttpAuthRepository implements AuthRepository {
       const result = await apiRequest<{ data: User }>('/account/profile')
       return result.data
     } catch (error) {
-      if (error instanceof ApiError && error.status === 401) tokenStore.clear()
+      if (error instanceof ApiError && error.status === 401) await tokenStore.clear()
       throw error
     }
   }
 
   async logout(): Promise<void> {
     await apiRequest('/account/logout', { method: 'POST' })
-    tokenStore.clear()
+    await tokenStore.clear()
   }
 }

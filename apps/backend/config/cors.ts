@@ -6,6 +6,7 @@ const productionOrigins = (env.get('CORS_ORIGINS') ?? '')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean)
+const capacitorOrigins = ['capacitor://localhost', 'https://localhost']
 
 /**
  * Configuration options to tweak the CORS policy. The following
@@ -23,7 +24,7 @@ const corsConfig = defineConfig({
    * In development, allow every origin to simplify local front/backend setup.
    * Production origins are supplied as a comma-separated environment value.
    */
-  origin: app.inDev ? true : productionOrigins,
+  origin: app.inDev ? true : [...new Set([...productionOrigins, ...capacitorOrigins])],
 
   /**
    * HTTP methods accepted for cross-origin requests.

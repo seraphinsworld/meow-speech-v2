@@ -29,7 +29,7 @@ describe('App authentication', () => {
     }
     let hasSession = false
     const authRepository: AuthRepository = {
-      hasSession: () => hasSession,
+      hasSession: async () => hasSession,
       login: vi.fn(async () => {
         hasSession = true
         return user
