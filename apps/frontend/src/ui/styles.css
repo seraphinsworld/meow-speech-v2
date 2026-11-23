@@ -19,6 +19,9 @@
   --paper: #fffefa;
   --line: #e9e8e0;
   --orange: #cc7450;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --app-height: calc(100dvh - var(--safe-top) - var(--safe-bottom));
 }
 
 * {
@@ -27,7 +30,15 @@
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--safe-top) env(safe-area-inset-right, 0px)
+    var(--safe-bottom) env(safe-area-inset-left, 0px);
+}
+
+/* Keep child margins inside the safe-area boundary on every screen. */
+#root {
+  display: flow-root;
+  min-height: var(--app-height);
 }
 button,
 input {
@@ -42,12 +53,12 @@ button:disabled {
 }
 
 .auth-layout {
-  min-height: 100vh;
+  min-height: var(--app-height);
   display: grid;
   grid-template-columns: 1.02fr 0.98fr;
 }
 .auth-story {
-  min-height: 100vh;
+  min-height: var(--app-height);
   padding: 38px 7.3vw;
   position: relative;
   overflow: hidden;
@@ -117,7 +128,7 @@ button:disabled {
 .auth-panel {
   position: relative;
   display: flex;
-  min-height: 100vh;
+  min-height: var(--app-height);
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -160,7 +171,7 @@ button:disabled {
   padding: 0 14px;
   background: var(--paper);
   color: var(--ink);
-  font-size: 13px;
+  font-size: 16px;
 }
 .auth-form-wrap input:focus {
   border-color: #78917d;
@@ -226,7 +237,7 @@ button:disabled {
 }
 .loading-screen {
   display: grid;
-  min-height: 100vh;
+  min-height: var(--app-height);
   place-items: center;
 }
 .loading-screen .brand-mark {
@@ -256,7 +267,7 @@ button:disabled {
 }
 
 .account-layout {
-  min-height: 100vh;
+  min-height: var(--app-height);
 }
 .topbar {
   display: flex;
@@ -569,7 +580,7 @@ button:disabled {
     font-size: 42px;
   }
   .auth-panel {
-    min-height: calc(100vh - 240px);
+    min-height: calc(var(--app-height) - 240px);
     padding: 38px 25px 60px;
   }
   .auth-form-wrap h2 {

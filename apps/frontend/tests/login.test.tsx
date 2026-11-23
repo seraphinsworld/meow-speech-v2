@@ -56,7 +56,7 @@ describe('App authentication', () => {
     )
 
     expect(authRepository.profile).not.toHaveBeenCalled()
-    await userInteraction.type(screen.getByLabelText('Adresse e-mail'), user.email)
+    await userInteraction.type(await screen.findByLabelText('Adresse e-mail'), user.email)
     await userInteraction.type(screen.getByLabelText('Mot de passe'), 'a-secure-password')
     await userInteraction.click(screen.getByRole('button', { name: /me connecter/i }))
 

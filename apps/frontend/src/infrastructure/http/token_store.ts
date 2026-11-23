@@ -12,7 +12,12 @@ export const tokenStore = {
   async get(): Promise<string | null> {
     if (!Capacitor.isNativePlatform()) return localStorage.getItem(TOKEN_KEY)
     await secureStorageReady
-    return SecureStorage.getItem(NATIVE_TOKEN_KEY)
+    // set() serializes JSON; get() decodes it (getItem() would keep the quotes).
+    const token = await SecureStorage.get(NATIVE_TOKEN_KEY, false, false)
+    if (token !== null && typeof token !== 'string') {
+      throw new Error('Invalid access token in secure storage')
+    }
+    return token
   },
   async set(token: string): Promise<void> {
     if (!Capacitor.isNativePlatform()) {
