@@ -104,7 +104,7 @@ export default defineConfig({
   | the production build.
   |
   */
-  metaFiles: [],
+  metaFiles: [{ pattern: 'content/units/*.csv', reloadServer: false }],
 
   hooks: {
     init: [

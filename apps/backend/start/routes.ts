@@ -11,6 +11,7 @@ import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 import { controllers } from '#generated/controllers'
 const UnitsController = () => import('#controllers/units_controller')
+const LevelsController = () => import('#controllers/levels_controller')
 
 router.get('/', () => {
   return { hello: 'world' }
@@ -36,5 +37,9 @@ router
       .use(middleware.auth())
 
     router.get('units', [UnitsController, 'index']).use(middleware.auth())
+    router.get('units/:unitId/levels/:level', [LevelsController, 'show']).use(middleware.auth())
+    router
+      .post('units/:unitId/levels/:level/complete', [LevelsController, 'complete'])
+      .use(middleware.auth())
   })
   .prefix('/api/v1')

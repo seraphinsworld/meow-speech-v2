@@ -21,4 +21,8 @@ export interface ApiDefinition {
   units: {
     index: typeof routes['units.index']
   }
+  levels: {
+    show: typeof routes['levels.show']
+    complete: typeof routes['levels.complete']
+  }
 }

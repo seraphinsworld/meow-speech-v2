@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useParams } from 'react-router'
 import { useLevel } from '../../application/use_level.ts'
+import { useLevelCompletion } from '../../application/use_level_completion.ts'
 import { useUnits } from '../../application/use_units.ts'
 import type { Question, QuestionAnswer } from '../../domain/models/question/question.ts'
 import { isLevelActive, isUnitActive } from '../../domain/models/units.ts'
@@ -28,6 +29,18 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
   const [questionIndex, setQuestionIndex] = useState(0)
   const [revealedQuestion, setRevealedQuestion] = useState<Question | null>(null)
   const [mistakes, setMistakes] = useState<Question[]>([])
+  const [results, setResults] = useState<
+    Array<{ questionId: string; word: string; correct: boolean }>
+  >([])
+  const level = levelQuery.level
+  const isFinished = Boolean(level && questionIndex >= level.questions.length)
+  const completion = useLevelCompletion({
+    enabled: isFinished,
+    unitId,
+    levelNumber,
+    sessionId: level?.sessionId ?? null,
+    results,
+  })
 
   if (!validRoute) return <Navigate to="/" replace />
 
@@ -70,7 +83,6 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
   if (!unit || !isUnitActive(unit)) return <Navigate to="/" replace />
   if (!isLevelActive(unit, levelNumber)) return <Navigate to={`/units/${unitId}`} replace />
 
-  const level = levelQuery.level
   if (!level) return <Navigate to={`/units/${unitId}`} replace />
 
   if (questionIndex >= level.questions.length) {
@@ -80,6 +92,9 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
         levelNumber={levelNumber}
         questionCount={level.questions.length}
         mistakes={mistakes}
+        completionStatus={completion.status}
+        completionError={completion.error}
+        onRetry={completion.retry}
       />
     )
   }
@@ -90,11 +105,19 @@ export function LevelQuestionnaireScreen({ onLogout, isLoggingOut }: Props) {
     if (revealedQuestion) return
 
     if (question.checkAnswer(answer)) {
+      setResults((current) => [
+        ...current,
+        { questionId: question.id, word: question.vocabularyWord, correct: true },
+      ])
       setQuestionIndex((current) => current + 1)
       return
     }
 
     setMistakes((current) => [...current, question])
+    setResults((current) => [
+      ...current,
+      { questionId: question.id, word: question.vocabularyWord, correct: false },
+    ])
     setRevealedQuestion(question)
   }
 

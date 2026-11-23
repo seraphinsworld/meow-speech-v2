@@ -7,7 +7,7 @@ import {
   setUnitRepository,
 } from './application/dependencies'
 import { HttpAuthRepository } from './infrastructure/repositories/auth_repository'
-import { MockLevelRepository } from './infrastructure/repositories/mock_level_repository'
+import { HttpLevelRepository } from './infrastructure/repositories/http_level_repository'
 import { HttpUnitRepository } from './infrastructure/repositories/units_repository'
 import { App } from './ui/app'
 import './ui/styles.css'
@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
 })
 setAuthRepository(new HttpAuthRepository())
 setUnitRepository(new HttpUnitRepository())
-setLevelRepository(new MockLevelRepository())
+setLevelRepository(new HttpLevelRepository())
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

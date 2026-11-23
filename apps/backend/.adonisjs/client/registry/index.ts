@@ -38,6 +38,18 @@ const routes = {
     tokens: [[0,"api"],[0,"v1"],[0,"units"]],
     types: placeholder as Registry['units.index']['types'],
   },
+  'levels.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/units/:unitId/levels/:level',
+    tokens: [[0,"api"],[0,"v1"],[0,"units"],[1,"unitId"],[0,"levels"],[1,"level"]],
+    types: placeholder as Registry['levels.show']['types'],
+  },
+  'levels.complete': {
+    methods: ["POST"],
+    pattern: '/api/v1/units/:unitId/levels/:level/complete',
+    tokens: [[0,"api"],[0,"v1"],[0,"units"],[1,"unitId"],[0,"levels"],[1,"level"],[0,"complete"]],
+    types: placeholder as Registry['levels.complete']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

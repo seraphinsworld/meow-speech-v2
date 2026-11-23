@@ -32,9 +32,36 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class UnitRoundSessionSchema extends BaseModel {
+  static $columns = ['completedAt', 'createdAt', 'currentRound', 'id', 'level', 'scheduledWords', 'seed', 'state', 'unitId', 'userId'] as const
+  $columns = UnitRoundSessionSchema.$columns
+  @column.dateTime()
+  declare completedAt: DateTime | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare currentRound: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare level: number
+  @column()
+  declare scheduledWords: string
+  @column()
+  declare seed: string
+  @column()
+  declare state: string
+  @column()
+  declare unitId: number
+  @column()
+  declare userId: number
+}
+
 export class UserUnitProgressSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'levelsCompleted', 'unitId', 'updatedAt', 'userId'] as const
+  static $columns = ['completedRounds', 'createdAt', 'id', 'levelsCompleted', 'unitId', 'updatedAt', 'userId'] as const
   $columns = UserUnitProgressSchema.$columns
+  @column()
+  declare completedRounds: number
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column({ isPrimary: true })
@@ -47,6 +74,31 @@ export class UserUnitProgressSchema extends BaseModel {
   declare updatedAt: DateTime | null
   @column()
   declare userId: number
+}
+
+export class UserUnitWordSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'lastReviewedAt', 'nextDueAt', 'state', 'step', 'unitId', 'updatedAt', 'userId', 'word'] as const
+  $columns = UserUnitWordSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare lastReviewedAt: bigint | number | null
+  @column()
+  declare nextDueAt: bigint | number | null
+  @column()
+  declare state: string
+  @column()
+  declare step: number
+  @column()
+  declare unitId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+  @column()
+  declare word: string
 }
 
 export class UserSchema extends BaseModel {

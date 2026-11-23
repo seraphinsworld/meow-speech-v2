@@ -1,9 +1,10 @@
-import type { Level } from '../../domain/models/level.ts'
-import { createQuestion } from './question_factory.ts'
-import type { QuestionData } from '../../domain/models/question/question.ts'
-import type { LevelRepository } from '../../domain/repositories/level_repository.ts'
+import type { Level } from '../src/domain/models/level.ts'
+import { createQuestion } from '../src/infrastructure/repositories/http_level_repository.ts'
+import type { QuestionData } from '../src/domain/models/question/question.ts'
+import type { LevelRepository } from '../src/domain/repositories/level_repository.ts'
 
 const mockLevel = {
+  sessionId: 0,
   keyboardPhonemes: ['ʃ', 's', 'h', 'ɪ', 'i', 'p', 'ɛ'],
   questions: [
     {
@@ -55,8 +56,26 @@ const mockLevel = {
 export class MockLevelRepository implements LevelRepository {
   async getLevel(_unitId: number, _levelNumber: number): Promise<Level> {
     return {
+      sessionId: mockLevel.sessionId,
       keyboardPhonemes: [...mockLevel.keyboardPhonemes],
       questions: mockLevel.questions.map(createQuestion),
+    }
+  }
+
+  async completeLevel(
+    _unitId: number,
+    _levelNumber: number,
+    _sessionId: number,
+    results: Array<{ correct: boolean }>
+  ) {
+    const correctAnswers = results.filter((result) => result.correct).length
+    return {
+      levelsCompleted: 1,
+      score: {
+        correctAnswers,
+        mistakes: results.length - correctAnswers,
+        totalQuestions: results.length,
+      },
     }
   }
 }

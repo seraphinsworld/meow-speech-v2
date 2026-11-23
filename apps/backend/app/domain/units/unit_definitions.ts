@@ -1,39 +1,36 @@
 import type { UnitDefinition } from './unit.js'
 
+const learningCapacity = 42
+const createUnitDefinition = (
+  id: number,
+  slug: string,
+  title: string,
+  activePhonemes: string[]
+): UnitDefinition => ({
+  id,
+  slug,
+  title,
+  activePhonemes,
+  totalLevels: 7,
+  learningCapacity,
+  wordBankCsvPath: `content/units/unit-${String(id).padStart(2, '0')}.csv`,
+})
+
 /** Shared curriculum metadata; progression is stored separately for each user. */
 export const unitDefinitions: UnitDefinition[] = [
-  { id: 1, slug: '1', title: 'Sheep vs ship', activePhonemes: ['ɪ', 'i'], totalLevels: 7 },
-  { id: 2, slug: 'unit-2', title: 'Seven and eleven', activePhonemes: ['ə', 'ɛ'], totalLevels: 7 },
-  {
-    id: 3,
-    slug: 'unit-3',
-    title: 'Boy, play and bike',
-    activePhonemes: ['ɔɪ', 'eɪ', 'aɪ'],
-    totalLevels: 7,
-  },
-  { id: 4, slug: 'unit-4', title: 'Child and shy', activePhonemes: ['tʃ', 'ʃ'], totalLevels: 7 },
-  { id: 5, slug: 'unit-5', title: 'Good food', activePhonemes: ['ʊ', 'u'], totalLevels: 7 },
-  { id: 6, slug: 'unit-6', title: 'Go out', activePhonemes: ['oʊ', 'aʊ'], totalLevels: 7 },
-  { id: 7, slug: 'unit-7', title: 'Cat and not', activePhonemes: ['æ', 'ɑ'], totalLevels: 7 },
-  { id: 8, slug: 'unit-8', title: 'Talk and walk', activePhonemes: ['oʊ', 'ɔ'], totalLevels: 7 },
-  { id: 9, slug: 'unit-9', title: 'Couple', activePhonemes: ['ʌ', 'ə'], totalLevels: 7 },
-  { id: 10, slug: 'unit-10', title: 'Enjoy and jump', activePhonemes: ['ʒ', 'dʒ'], totalLevels: 7 },
-  { id: 11, slug: 'unit-11', title: 'Yummy and cutie', activePhonemes: ['j', 'i'], totalLevels: 7 },
-  { id: 12, slug: 'unit-12', title: 'Morning', activePhonemes: ['ŋ', 'n'], totalLevels: 7 },
-  {
-    id: 13,
-    slug: 'unit-13',
-    title: 'Right, how and where',
-    activePhonemes: ['r', 'h'],
-    totalLevels: 7,
-  },
-  {
-    id: 14,
-    slug: 'unit-14',
-    title: 'Worker and burger',
-    activePhonemes: ['ɝ', 'ɚ'],
-    totalLevels: 7,
-  },
-  { id: 15, slug: 'unit-15', title: 'Think and this', activePhonemes: ['θ', 'ð'], totalLevels: 7 },
+  createUnitDefinition(1, '1', 'Sheep vs ship', ['ɪ', 'i']),
+  createUnitDefinition(2, 'unit-2', 'Seven and eleven', ['ə', 'ɛ']),
+  createUnitDefinition(3, 'unit-3', 'Boy, play and bike', ['ɔɪ', 'eɪ', 'aɪ']),
+  createUnitDefinition(4, 'unit-4', 'Child and shy', ['tʃ', 'ʃ']),
+  createUnitDefinition(5, 'unit-5', 'Good food', ['ʊ', 'u']),
+  createUnitDefinition(6, 'unit-6', 'Go out', ['oʊ', 'aʊ']),
+  createUnitDefinition(7, 'unit-7', 'Cat and not', ['æ', 'ɑ']),
+  createUnitDefinition(8, 'unit-8', 'Talk and walk', ['oʊ', 'ɔ']),
+  createUnitDefinition(9, 'unit-9', 'Couple', ['ʌ', 'ə']),
+  createUnitDefinition(10, 'unit-10', 'Enjoy and jump', ['ʒ', 'dʒ']),
+  createUnitDefinition(11, 'unit-11', 'Yummy and cutie', ['j', 'i']),
+  createUnitDefinition(12, 'unit-12', 'Morning', ['ŋ', 'n']),
+  createUnitDefinition(13, 'unit-13', 'Right, how and where', ['r', 'h']),
+  createUnitDefinition(14, 'unit-14', 'Worker and burger', ['ɝ', 'ɚ']),
+  createUnitDefinition(15, 'unit-15', 'Think and this', ['θ', 'ð']),
 ]
-

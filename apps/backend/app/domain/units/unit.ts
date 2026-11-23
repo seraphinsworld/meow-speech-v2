@@ -4,6 +4,8 @@ export type UnitDefinition = {
   title: string
   activePhonemes: string[]
   totalLevels: number
+  wordBankCsvPath: string
+  learningCapacity: number
 }
 
 export class UnitProgressionError extends Error {
@@ -15,6 +17,7 @@ export class UnitProgressionError extends Error {
 
 /** A shared unit definition combined with one user's progression context. */
 export class Unit {
+  readonly #definition: UnitDefinition
   readonly id: number
   readonly slug: string
   readonly title: string
@@ -31,6 +34,7 @@ export class Unit {
     levelsCompleted: number,
     previousUnitCompleted: boolean | null
   ) {
+    this.#definition = definition
     this.id = definition.id
     this.slug = definition.slug
     this.title = definition.title
@@ -76,13 +80,7 @@ export class Unit {
     }
 
     return new Unit(
-      {
-        id: this.id,
-        slug: this.slug,
-        title: this.title,
-        activePhonemes: this.activePhonemes,
-        totalLevels: this.totalLevels,
-      },
+      this.#definition,
       this.levelsCompleted + 1,
       this.previousUnitCompleted
     )

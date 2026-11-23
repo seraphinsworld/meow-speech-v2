@@ -7,9 +7,20 @@ type Props = {
   levelNumber: number
   questionCount: number
   mistakes: Question[]
+  completionStatus: 'pending' | 'saving' | 'saved' | 'error'
+  completionError: string | null
+  onRetry: () => void
 }
 
-export function LevelSummary({ unitId, levelNumber, questionCount, mistakes }: Props) {
+export function LevelSummary({
+  unitId,
+  levelNumber,
+  questionCount,
+  mistakes,
+  completionStatus,
+  completionError,
+  onRetry,
+}: Props) {
   return (
     <main className="questionnaire-screen">
       <section className="questionnaire-card level-summary">
@@ -22,6 +33,16 @@ export function LevelSummary({ unitId, levelNumber, questionCount, mistakes }: P
           <MistakeReview mistakes={mistakes} />
         ) : (
           <p className="summary-perfect">Aucune faute à revoir. Bien joué !</p>
+        )}
+        {completionStatus === 'saving' && <p role="status">Enregistrement de votre progression…</p>}
+        {completionStatus === 'saved' && <p role="status">Votre progression est enregistrée.</p>}
+        {completionStatus === 'error' && (
+          <p className="units-error" role="alert">
+            {completionError ?? 'Impossible d’enregistrer votre progression.'}{' '}
+            <button type="button" onClick={onRetry}>
+              Réessayer
+            </button>
+          </p>
         )}
         <Link className="primary-button question-submit" to={`/units/${unitId}`}>
           Retour aux niveaux

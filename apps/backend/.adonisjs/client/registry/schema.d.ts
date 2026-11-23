@@ -73,6 +73,32 @@ export interface Registry {
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/units_controller').default['index']>>>
     }
   }
+  'levels.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/units/:unitId/levels/:level'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { unitId: ParamValue; level: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/levels_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/levels_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/levels_controller').default['show']>>>
+    }
+  }
+  'levels.complete': {
+    methods: ["POST"]
+    pattern: '/api/v1/units/:unitId/levels/:level/complete'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { unitId: ParamValue; level: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/levels_controller').default['complete']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/levels_controller').default['complete']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/levels_controller').default['complete']>>>
+    }
+  }
 }
 
 export namespace Route {
